@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}SketchArt — Home{% endblock %}
+
+{% block extra_css %}
+<style>
+  .hero{background:linear-gradient(135deg,#2d2015,#4a3520);color:#fff;
+        padding:6rem 3rem;text-align:center;}
+  .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,4rem);margin-bottom:1rem;}
+  .hero h1 span{color:var(--copper-light);font-style:italic;}
+  .hero p{color:rgba(255,255,255,.7);max-width:500px;margin:0 auto 2.5rem;font-size:1.05rem;}
+  .hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+
+  .section{padding:5rem 3rem;}
+  .section-label{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--copper);margin-bottom:.5rem;}
+  .section-title{font-family:'Playfair Display',serif;font-size:2.2rem;margin-bottom:2.5rem;}
+
+  /* HOW IT WORKS */
+  .steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;}
+  .step{text-align:center;padding:2rem 1rem;}
+  .step-num{width:52px;height:52px;background:var(--copper);color:#fff;border-radius:50%;
+            display:flex;align-items:center;justify-content:center;
+            font-family:'Playfair Display',serif;font-size:1.3rem;margin:0 auto 1rem;}
+  .step h3{font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:.5rem;}
+  .step p{font-size:.88rem;color:var(--muted);}
+
+  /* GALLERY PREVIEW */
+  .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;}
+  .g-card{background:#fff;border-radius:10px;overflow:hidden;border:1px solid var(--warm);
+          transition:transform .3s,box-shadow .3s;}
+  .g-card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,.1);}
+  .g-thumb{height:180px;background:linear-gradient(135deg,#e8d9c8,#d4c5b0);
+            display:flex;align-items:center;justify-content:center;font-size:3.5rem;}
+  .g-info{padding:1.25rem;}
+  .g-info h4{font-family:'Playfair Display',serif;margin-bottom:.25rem;}
+  .g-info p{font-size:.83rem;color:var(--muted);}
+
+  .cta-band{background:var(--copper);color:#fff;padding:4rem 3rem;text-align:center;}
+  .cta-band h2{font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:.75rem;}
+  .cta-band p{margin-bottom:1.5rem;opacity:.85;}
+  .btn-white{background:#fff;color:var(--copper);padding:.8rem 2rem;border-radius:4px;
+             font-weight:600;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;transition:all .25s;}
+  .btn-white:hover{background:var(--ink);color:#fff;}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- HERO -->
+<section class="hero">
+  <h1>Your Memories,<br><span>Sketched Forever</span></h1>
+  <p>Custom handcrafted portrait sketches — pencil, charcoal, or color. Order yours today.</p>
+  <div class="hero-btns">
+    <a href="/order" class="btn btn-primary">Order Your Portrait</a>
+    <a href="/gallery" class="btn btn-outline" style="border-color:#fff;color:#fff;">View Gallery</a>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" style="background:#fff;">
+  <div class="section-label">Simple Process</div>
+  <div class="section-title">How It Works</div>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Upload Your Photo</h3>
+      <p>Send us a clear, high-quality photo of your subject.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Choose Style & Frame</h3>
+      <p>Pick your art style, frame size, and portrait type.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>We Sketch It</h3>
+      <p>Our artists carefully craft your portrait by hand.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h3>Delivered to You</h3>
+      <p>Receive your framed masterpiece at your doorstep.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY PREVIEW -->
+<section class="section">
+  <div class="section-label">Our Work</div>
+  <div class="section-title">Featured Sketches</div>
+  <div class="gallery-grid">
+    {% for item in gallery %}
+    <div class="g-card">
+      <div class="g-thumb">🎨</div>
+      <div class="g-info">
+        <h4>{{ item.title }}</h4>
+        <p>{{ item.desc }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div style="text-align:center;margin-top:2.5rem;">
+    <a href="/gallery" class="btn btn-outline">View Full Gallery</a>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band">
+  <h2>Ready to Order Your Portrait?</h2>
+  <p>Starting from just ₹499 · Delivered within 7–10 days</p>
+  <a href="/order" class="btn-white">Place Your Order</a>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Admin Login — SketchArt{% endblock %}
+{% block extra_css %}
+<style>
+  .login-wrap{min-height:80vh;display:flex;align-items:center;justify-content:center;padding:2rem;}
+  .login-card{background:#fff;border-radius:12px;padding:3rem;box-shadow:0 8px 40px rgba(0,0,0,.1);
+              max-width:400px;width:100%;text-align:center;}
+  .login-card h1{font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:.5rem;}
+  .login-card p{color:var(--muted);font-size:.88rem;margin-bottom:2rem;}
+  .form-group{text-align:left;margin-bottom:1.25rem;}
+  label{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:.4rem;}
+  input{width:100%;padding:.75rem 1rem;border:1px solid var(--warm);border-radius:6px;
+        font-size:.95rem;transition:border-color .25s;}
+  input:focus{outline:none;border-color:var(--copper);}
+</style>
+{% endblock %}
+{% block content %}
+<div class="login-wrap">
+  <div class="login-card">
+    <div style="font-size:2rem;margin-bottom:.5rem;">🔐</div>
+    <h1>Admin Login</h1>
+    <p>Access the orders dashboard</p>
+    <form method="POST">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="admin" required/>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="••••••••" required/>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Login</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

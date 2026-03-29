@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block title %}Order — SketchArt{% endblock %}
+{% block extra_css %}
+<style>
+  .page-header{background:linear-gradient(135deg,#2d2015,#4a3520);color:#fff;
+               padding:4rem 3rem;text-align:center;}
+  .page-header h1{font-family:'Playfair Display',serif;font-size:2.8rem;margin-bottom:.5rem;}
+  .page-header p{color:rgba(255,255,255,.65);}
+  .form-section{padding:4rem 3rem;max-width:780px;margin:0 auto;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
+  .form-group{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1.25rem;}
+  .form-group.full{grid-column:1/-1;}
+  label{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;}
+  input,select,textarea{
+    padding:.75rem 1rem;border:1px solid var(--warm);border-radius:6px;
+    font-family:'DM Sans',sans-serif;font-size:.95rem;color:var(--ink);
+    background:#fff;transition:border-color .25s;width:100%;
+  }
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--copper);}
+  textarea{resize:vertical;min-height:100px;}
+
+  /* UPLOAD BOX */
+  .upload-box{border:2px dashed var(--warm);border-radius:8px;padding:2rem;
+              text-align:center;cursor:pointer;transition:border-color .25s;position:relative;}
+  .upload-box:hover{border-color:var(--copper);}
+  .upload-box input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;}
+  .upload-icon{font-size:2rem;margin-bottom:.5rem;}
+  .upload-text{font-size:.88rem;color:var(--muted);}
+  #file-name{font-size:.82rem;color:var(--copper);margin-top:.5rem;}
+
+  .form-card{background:#fff;border-radius:12px;padding:2.5rem;box-shadow:0 4px 24px rgba(0,0,0,.07);}
+  .section-sub{font-family:'Playfair Display',serif;font-size:1.2rem;margin:2rem 0 1rem;
+               color:var(--ink);border-left:3px solid var(--copper);padding-left:.75rem;}
+  .submit-row{text-align:center;margin-top:2rem;}
+  .total-preview{background:#fff8f3;border:1px solid var(--warm);border-radius:8px;
+                 padding:1.25rem;margin-top:1rem;font-size:.9rem;color:var(--muted);}
+  .total-preview strong{color:var(--copper);font-size:1.1rem;}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>Place Your Order</h1>
+  <p>Fill in the details below and we'll get started on your portrait</p>
+</div>
+
+<section class="form-section">
+  <div class="form-card">
+    <form method="POST" enctype="multipart/form-data">
+
+      <div class="section-sub">📋 Personal Details</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" name="name" placeholder="Your name" required/>
+        </div>
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input type="tel" name="phone" placeholder="+91 XXXXX XXXXX" required/>
+        </div>
+        <div class="form-group full">
+          <label>Email Address *</label>
+          <input type="email" name="email" placeholder="your@email.com" required/>
+        </div>
+      </div>
+
+      <div class="section-sub">🎨 Portrait Details</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Portrait Type *</label>
+          <select name="portrait_type" required>
+            <option value="">-- Select Type --</option>
+            {% for pt in portrait_types %}
+            <option value="{{ pt }}">{{ pt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Art Style *</label>
+          <select name="art_style" required>
+            <option value="">-- Select Style --</option>
+            <option value="Pencil Sketch">Pencil Sketch</option>
+            <option value="Charcoal">Charcoal</option>
+            <option value="Color Art">Color Art</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Frame Size *</label>
+          <select name="frame_size" id="frame_size" required onchange="updateTotal()">
+            <option value="">-- Select Frame Size --</option>
+            {% for f in frames %}
+            <option value="{{ f.size }}" data-price="{{ f.price }}">{{ f.size }} — +₹{{ f.price }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="section-sub">📸 Upload Your Photo</div>
+      <div class="upload-box">
+        <input type="file" name="photo" id="photo-input" accept="image/*" onchange="showFileName(this)"/>
+        <div class="upload-icon">📷</div>
+        <div class="upload-text">Click to upload or drag & drop your photo here<br>
+          <small>Supports JPG, PNG, GIF</small></div>
+        <div id="file-name"></div>
+      </div>
+
+      <div class="section-sub">💬 Additional Notes</div>
+      <div class="form-group">
+        <label>Special Instructions (optional)</label>
+        <textarea name="message" placeholder="Any specific requirements, background preferences, expressions, etc."></textarea>
+      </div>
+
+      <div class="total-preview" id="total-preview" style="display:none;">
+        🖼️ Frame add-on selected: <strong id="total-text"></strong>
+      </div>
+
+      <div class="submit-row">
+        <button type="submit" class="btn btn-primary" style="padding:1rem 3rem;font-size:1rem;">
+          ✨ Place My Order
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+  function showFileName(input) {
+    const label = document.getElementById('file-name');
+    label.textContent = input.files[0] ? '✅ ' + input.files[0].name : '';
+  }
+  function updateTotal() {
+    const sel = document.getElementById('frame_size');
+    const opt = sel.options[sel.selectedIndex];
+    const preview = document.getElementById('total-preview');
+    const text = document.getElementById('total-text');
+    if (opt && opt.dataset.price) {
+      text.textContent = opt.value + ' (+₹' + opt.dataset.price + ')';
+      preview.style.display = 'block';
+    } else {
+      preview.style.display = 'none';
+    }
+  }
+</script>
+{% endblock %}

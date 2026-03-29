@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Pricing — SketchArt{% endblock %}
+{% block extra_css %}
+<style>
+  .page-header{background:linear-gradient(135deg,#2d2015,#4a3520);color:#fff;
+               padding:4rem 3rem;text-align:center;}
+  .page-header h1{font-family:'Playfair Display',serif;font-size:2.8rem;margin-bottom:.5rem;}
+  .page-header p{color:rgba(255,255,255,.65);}
+  .section{padding:4rem 3rem;}
+  .section-label{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--copper);margin-bottom:.5rem;}
+  .section-title{font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:2rem;}
+
+  /* PRICING TABLE */
+  .price-table{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.07);}
+  .price-table th{background:#2d2015;color:#fff;padding:1rem 1.5rem;text-align:left;
+                  font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;font-weight:400;}
+  .price-table td{padding:1rem 1.5rem;border-bottom:1px solid var(--warm);background:#fff;font-size:.92rem;}
+  .price-table tr:last-child td{border-bottom:none;}
+  .price-table tr:hover td{background:#fdf9f5;}
+  .price{color:var(--copper);font-weight:500;font-family:'Playfair Display',serif;}
+
+  /* FRAME TABLE */
+  .frame-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem;margin-top:1rem;}
+  .frame-card{background:#fff;border:1px solid var(--warm);border-radius:8px;
+              padding:1.75rem;text-align:center;transition:border-color .3s;}
+  .frame-card:hover{border-color:var(--copper);}
+  .frame-size{font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:.4rem;}
+  .frame-price{color:var(--copper);font-size:1.1rem;font-weight:500;}
+  .frame-label{font-size:.78rem;color:var(--muted);letter-spacing:.05em;}
+
+  .note{background:#fff8f3;border-left:4px solid var(--copper);padding:1.25rem 1.5rem;
+        border-radius:0 6px 6px 0;font-size:.88rem;color:var(--muted);margin-top:2rem;}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>Pricing</h1>
+  <p>Transparent, affordable pricing for every portrait</p>
+</div>
+
+<section class="section">
+  <div class="section-label">Portrait Pricing</div>
+  <div class="section-title">Choose Your Style</div>
+  <table class="price-table">
+    <thead>
+      <tr>
+        <th>Portrait Type</th>
+        <th>Pencil Sketch</th>
+        <th>Charcoal</th>
+        <th>Color Art</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in pricing %}
+      <tr>
+        <td><strong>{{ p.type }}</strong></td>
+        <td class="price">₹{{ p.pencil }}</td>
+        <td class="price">₹{{ p.charcoal }}</td>
+        <td class="price">₹{{ p.color }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="note">
+    💡 <strong>Delivery time:</strong> 7–10 working days. Express delivery (3–5 days) available for an additional ₹200.
+  </div>
+</section>
+
+<section class="section" style="background:#fff;padding-top:2rem;">
+  <div class="section-label">Frame Add-On</div>
+  <div class="section-title">Frame Sizes & Prices</div>
+  <div class="frame-grid">
+    {% for f in frames %}
+    <div class="frame-card">
+      <div class="frame-size">{{ f.size }}</div>
+      <div class="frame-label">Frame Add-on</div>
+      <div class="frame-price">+ ₹{{ f.price }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  <div style="text-align:center;margin-top:3rem;">
+    <a href="/order" class="btn btn-primary">Order Now</a>
+  </div>
+</section>
+{% endblock %}
