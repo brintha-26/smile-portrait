@@ -33,7 +33,7 @@ def save_orders(orders):
 # ── Gallery of already-sketched portraits ────────────────
 GALLERY = [
     {"id": 1, "title": "Couple Portrait",     "img": "g1.jpg", "desc": "Romantic pencil sketch for couples"},
-    {"id": 2, "title": "Baby Sketch",         "img": "g2.jpg", "desc": "Soft charcoal sketch for newborns"},
+    {"id": 2, "title": "male solo Sketch",    "img": "g2.jpg", "desc": "Soft charcoal sketch for newborns"},
     {"id": 3, "title": "Family Portrait",     "img": "g3.jpg", "desc": "Full family pencil art"},
     {"id": 4, "title": "Solo Portrait",       "img": "g4.jpg", "desc": "Individual detailed sketch"},
     {"id": 5, "title": "Pet Portrait",        "img": "g5.jpg", "desc": "Charcoal sketch of your pet"},
@@ -51,7 +51,7 @@ PRICING = [
     {"type": "Solo Portrait",   "pencil": 499,  "charcoal": 699,  "color": 999},
     {"type": "Couple Portrait", "pencil": 799,  "charcoal": 999,  "color": 1299},
     {"type": "Family Portrait", "pencil": 1099, "charcoal": 1299, "color": 1699},
-    {"type": "Baby Sketch",     "pencil": 599,  "charcoal": 799,  "color": 1099},
+    {"type": "male solo Sketch", "pencil": 599,  "charcoal": 799,  "color": 1099},
     {"type": "Pet Portrait",    "pencil": 599,  "charcoal": 799,  "color": 1099},
 ]
 
